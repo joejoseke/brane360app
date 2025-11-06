@@ -1,13 +1,38 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { ROOT_NODE } from './constants';
 import { NodeData } from './types';
 import MapLayout from './components/MapLayout';
 import LocationMap from './components/LocationMap';
+import SearchBar from './components/SearchBar';
+
+export interface SearchableNode {
+  node: NodeData;
+  path: NodeData[]; // path of ancestors
+  breadcrumb: string;
+}
 
 const App: React.FC = () => {
   const [activeNode, setActiveNode] = useState<NodeData>(ROOT_NODE);
   const [history, setHistory] = useState<NodeData[]>([]);
   const [isFading, setIsFading] = useState<boolean>(false);
+
+  const allNodes = useMemo(() => {
+    const flattened: SearchableNode[] = [];
+    const traverse = (node: NodeData, ancestors: NodeData[]) => {
+        // Don't add the root node itself to searchable list, only its descendants
+        if (node.id !== 'root') {
+             const breadcrumb = ancestors.slice(1).map(n => n.title).join(' > ');
+             flattened.push({ node, path: ancestors, breadcrumb });
+        }
+       
+        if (node.subNodes) {
+            const newAncestors = [...ancestors, node];
+            node.subNodes.forEach(subNode => traverse(subNode, newAncestors));
+        }
+    };
+    traverse(ROOT_NODE, []); // Start with an empty ancestor path
+    return flattened;
+  }, []);
 
   const handleNodeClick = (node: NodeData) => {
     // Handle external links first
@@ -37,6 +62,15 @@ const App: React.FC = () => {
       setIsFading(false);
     }, 500);
   };
+  
+  const handleSearchSelect = (searchResult: SearchableNode) => {
+    setIsFading(true);
+    setTimeout(() => {
+        setHistory(searchResult.path);
+        setActiveNode(searchResult.node);
+        setIsFading(false);
+    }, 500);
+  };
 
   const handleBackClick = () => {
     if (history.length === 0) return;
@@ -56,10 +90,13 @@ const App: React.FC = () => {
 
   return (
     <div className="min-h-screen w-full bg-slate-900 text-gray-100 flex flex-col items-center p-4 sm:p-8 transition-colors duration-500 overflow-x-hidden">
-      <header className="w-full max-w-5xl text-center mb-8 md:mb-12">
-        <h1 className="text-4xl sm:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-purple-500 pb-2">
-          BRANE360
-        </h1>
+      <header className="w-full max-w-5xl mb-8 md:mb-12 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="text-center md:text-left">
+            <h1 className="text-4xl sm:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-purple-500 pb-2">
+            Brane360 Strategic Intelligence
+            </h1>
+        </div>
+        <SearchBar nodes={allNodes} onSelect={handleSearchSelect} />
       </header>
       
       <main className={`w-full max-w-5xl flex-grow flex flex-col items-center justify-center transition-opacity duration-500 ${isFading ? 'opacity-0' : 'opacity-100'}`}>
