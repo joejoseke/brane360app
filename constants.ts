@@ -269,7 +269,7 @@ export const ROOT_NODE: NodeData = {
     },
     {
       id: 'treenity',
-      title: 'Treenity',
+      title: 'Treenity Homes',
       description: 'Building the next generation of real estate with a focus on sustainable and smart housing.',
       imageUrl: 'https://images.unsplash.com/photo-1617103995440-a68c4a451432?q=80&w=1974&auto=format&fit=crop',
       subNodes: [
