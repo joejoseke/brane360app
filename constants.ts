@@ -150,7 +150,7 @@ export const ROOT_NODE: NodeData = {
           id: 'vr_headsets', 
           title: 'VR Headsets',
           description: 'Immerse yourself in virtual worlds with cutting-edge VR technology.',
-          imageUrl: 'https://images.unsplash.com/photo-1544415347-971a74a1239c?q=80&w=2070&auto=format&fit=crop',
+          imageUrl: 'https://images.unsplash.com/photo-1593508512255-86ab42a8e620?q=80&w=2078&auto=format&fit=crop',
           subNodes: [
             { id: 'meta_quest', title: 'Meta Quest' },
             { id: 'valve_index', title: 'Valve Index' },
@@ -231,12 +231,12 @@ export const ROOT_NODE: NodeData = {
       description: 'Providing robust software-as-a-service solutions, including accounting and cybersecurity.',
       imageUrl: 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?q=80&w=2070&auto=format&fit=crop',
       subNodes: [
-        { id: 'accounting', title: 'Accounting Suite' },
+        { id: 'accounting', title: 'Accounting Suite', externalLink: 'https://drive.google.com/file/d/1FpXpauRX5idSMqzAV8UWSDti0samgc-O/view?usp=sharing' },
         { id: 'cybersecurity', title: 'Cybersecurity' },
         { id: 'crm', title: 'CRM Platform' },
         { id: 'cloud', title: 'Cloud Solutions' },
         { id: 'hr', title: 'HR Software' },
-        { id: 'pm', title: 'Project Mgmt' },
+        { id: 'pm', title: 'Project Mgmt', externalLink: 'https://photos.app.goo.gl/BRuZXuQj8GSWccGq7' },
       ],
     },
     {

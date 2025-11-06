@@ -10,6 +10,12 @@ const App: React.FC = () => {
   const [isFading, setIsFading] = useState<boolean>(false);
 
   const handleNodeClick = (node: NodeData) => {
+    // Handle external links first
+    if (node.externalLink) {
+      window.open(node.externalLink, '_blank', 'noopener,noreferrer');
+      return;
+    }
+
     // Special cases for grounding maps
     if (node.id === 'pos' || node.id === 'server') {
       setIsFading(true);

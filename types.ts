@@ -4,4 +4,5 @@ export interface NodeData {
   description?: string;
   imageUrl?: string;
   subNodes?: NodeData[];
+  externalLink?: string;
 }
